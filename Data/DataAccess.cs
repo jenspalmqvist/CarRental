@@ -50,7 +50,7 @@ namespace CarRental.Data
         public void GetFirstCar()
         {
             Context context = new Context();
-            var car = context.Cars.Include(car => car.RentalOffice).ThenInclude(office => office.Customers).First();
+            var car = context.Cars.Include(car => car.RentalOffice).ThenInclude(office => office.Customers).Where(c => c.Id == 3).First();
             Console.WriteLine($"Model: {car.Model}, Office: {car.RentalOffice.OfficeName}, Customers: {car.RentalOffice.Customers.ToArray()[0].FirstName}");
         }
     }
