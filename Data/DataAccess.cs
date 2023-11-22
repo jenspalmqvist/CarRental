@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.Data
 {
+
+    // This class is where we create our methods for communicating with the database
+    // We do this to centralize where we keep our database-methods to have a more structured project
     internal class DataAccess
     {
 
@@ -47,10 +50,56 @@ namespace CarRental.Data
             context.SaveChanges();
         }
 
+        public void CreateCar()
+        {
+            Context context = new Context();
+
+            Car newCar = new Car();
+            newCar.Manufacturer = "Dacia";
+            newCar.Model = "Duster";
+            newCar.Color = "White";
+            newCar.Mileage = 3000;
+            newCar.DailyRate = 180000;
+
+            RentalOffice office = context.RentalOffices.First();
+            newCar.RentalOffice = office;
+            // The .Add-method adds the car to the context
+            context.Cars.Add(newCar);
+            // The .SaveChanges-method writes the current changes to the context to the database
+            context.SaveChanges();
+        }
+
+        public Car GetFirstCarByModel(string model)
+        {
+            using (Context context = new Context())
+            {
+                return context.Cars
+                    // The variable name to use in the loop
+                    //      |
+                    //      v
+                    .Where(car => car.Model == model)
+                    .First();
+
+                /*
+                 *  The Where-method is roughly equal to this loop:
+                 * 
+                 *      List<Car> cars = context.Cars.ToList();
+                 *      foreach(Car car in Cars) 
+                 *      {
+                 *          if(car.Model == model) return car;
+                 *      }
+                 * 
+                 */
+            }
+        }
+
         public void GetFirstCar()
         {
             Context context = new Context();
-            var car = context.Cars.Include(car => car.RentalOffice).ThenInclude(office => office.Customers).Where(c => c.Id == 3).First();
+            var car = context.Cars
+                .Include(car => car.RentalOffice)
+                .ThenInclude(office => office.Customers)
+                .First();
             Console.WriteLine($"Model: {car.Model}, Office: {car.RentalOffice.OfficeName}, Customers: {car.RentalOffice.Customers.ToArray()[0].FirstName}");
         }
     }

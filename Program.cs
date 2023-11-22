@@ -1,4 +1,5 @@
 ﻿using CarRental.Data;
+using CarRental.Models;
 
 namespace CarRental
 {
@@ -8,7 +9,10 @@ namespace CarRental
         {
             Console.WriteLine("Hello, World!");
             DataAccess dataAccess = new DataAccess();
-            dataAccess.GetFirstCar();
+            //dataAccess.GetFirstCar();
+            //dataAccess.CreateCar();
+            Car foundCar = dataAccess.GetFirstCarByModel("Duster2");
+            Console.WriteLine(foundCar.Manufacturer);
             //dataAccess.Seed();
         }
     }
