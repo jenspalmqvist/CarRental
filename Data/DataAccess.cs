@@ -69,7 +69,9 @@ namespace CarRental.Data
             context.SaveChanges();
         }
 
-        public Car GetFirstCarByModel(string model)
+        public int SumLambda(int num1, int num2) => num1 + num2;
+
+        public Car? GetFirstCarByModel(string model)
         {
             using (Context context = new Context())
             {
@@ -78,18 +80,47 @@ namespace CarRental.Data
                     //      |
                     //      v
                     .Where(car => car.Model == model)
-                    .First();
+                    //          ^
+                    //  The 'arrow' is called a 'Lambda operator' and is used to separate the 
+                    //  function parameters (the left side of the arrow) from the function body
+                    //  (the right side of the arrow)
+                    //
+                    // FirstOrDefault() returns null if no cars with the provided model exists
+                    // First() will crash the application if no car with the provided model is found
+                    .FirstOrDefault();
 
                 /*
-                 *  The Where-method is roughly equal to this loop:
-                 * 
+                 * The Where-method is roughly equal to this loop:
+                 * public Car FindCar(string model)
+                 * {
                  *      List<Car> cars = context.Cars.ToList();
                  *      foreach(Car car in Cars) 
                  *      {
                  *          if(car.Model == model) return car;
                  *      }
-                 * 
+                 * }
                  */
+            }
+        }
+
+
+
+        public void GetCarsAndCustomersInOffice()
+        {
+            using (Context context = new Context())
+            {
+                RentalOffice office = context.RentalOffices
+                    // Include() always has the original table (In this case context.RentalOffices)
+                    // as the starting point, if you want information about two related tables
+                    // from the original table you need two Includes()
+                    .Include(office => office.Cars)
+                    // We can write multiple ThenIncludes() starting from office.Cars here if we want
+
+                    // But if we want information from RentalOffices we need to start a new Include()-chain
+                    .Include(office => office.Customers)
+                    .First();
+
+                Console.WriteLine($"Number of cars: {office.Cars.Count}, Number of customers: {office.Customers.Count}");
             }
         }
 
@@ -98,9 +129,11 @@ namespace CarRental.Data
             Context context = new Context();
             var car = context.Cars
                 .Include(car => car.RentalOffice)
+                // ThenInclude() has the previous Include() as a starting point (In this case car.RentalOffice)
                 .ThenInclude(office => office.Customers)
                 .First();
             Console.WriteLine($"Model: {car.Model}, Office: {car.RentalOffice.OfficeName}, Customers: {car.RentalOffice.Customers.ToArray()[0].FirstName}");
         }
+
     }
 }

@@ -11,8 +11,16 @@ namespace CarRental
             DataAccess dataAccess = new DataAccess();
             //dataAccess.GetFirstCar();
             //dataAccess.CreateCar();
-            Car foundCar = dataAccess.GetFirstCarByModel("Duster2");
-            Console.WriteLine(foundCar.Manufacturer);
+            //Car? foundCar = dataAccess.GetFirstCarByModel("Duster2");
+            //if (foundCar == null)
+            //{
+            //    Console.WriteLine("Car with model not found");
+            //}
+            //else
+            //{
+            //    Console.WriteLine(foundCar.Manufacturer);
+            //}
+            dataAccess.GetCarsAndCustomersInOffice();
             //dataAccess.Seed();
         }
     }
