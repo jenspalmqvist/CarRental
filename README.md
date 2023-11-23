@@ -3,10 +3,13 @@
 
 Skapa en användare i Azure Data Studio och använd den i connectionsträngen i Context.cs ( Kopiera den från det här projektet och ändra det som behöver ändras om du vill )
 
-1. Installera nuget-paket genom att klistra in följande i Package Manager Console ( Om ni kör .NET 8 ska siffrorna istället vara 8.0.0 ): 
-	Install-Package Microsoft.EntityFrameworkCore -Version 7.0.14
-	Install-Package Microsoft.EntityFrameworkCore.Design -Version 7.0.14
-	Install-Package Microsoft.EntityFrameworkCore.SqlServer -Version 7.0.14
+Om det är första gången du jobbar med entity framework på din dator, kör 'dotnet tool install -g dotnet-ef --version 7.0.14' i din terminal/package manager console
+
+1. Installera nuget-paket genom "Manage Nuget Packages" i Visual Stuio, eller genom 
+	att klistra in följande i Package Manager Console ( Om ni kör .NET 8 ska siffrorna istället vara 8.0.0 ): 
+		Install-Package Microsoft.EntityFrameworkCore -Version 7.0.14
+		Install-Package Microsoft.EntityFrameworkCore.Design -Version 7.0.14
+		Install-Package Microsoft.EntityFrameworkCore.SqlServer -Version 7.0.14
 2. Skapa en mapp som heter Models, och i den klasserna Car/RentalOffice/Customer med tillhörande properties
 3. Skapa en mapp som heter Data, och skapa i den en fil som heter Context.cs
 4. Lägg till DbSet för klasserna ovan i Context.cs
