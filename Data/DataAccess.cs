@@ -139,5 +139,49 @@ namespace CarRental.Data
             Console.WriteLine($"Model: {car.Model}, Office: {car.RentalOffice.OfficeName}, Customers: {car.RentalOffice.Customers.ToArray()[0].FirstName}");
         }
 
+        public void RentCarWithId(int carId, int customerId)
+        {
+            using (Context context = new Context())
+            {
+                Customer customer = context.Customers.Find(customerId);
+                if (customer == null)
+                {
+                    Console.WriteLine("No customer with id found");
+                    return;
+                }
+                Car car = context.Cars.Find(carId);
+                if (car == null)
+                {
+                    Console.WriteLine("No car with id found");
+                    return;
+                }
+                car.IsAvailable = false;
+                customer.Car = car;
+                context.SaveChanges();
+            }
+        }
+
+        public void ReturnCar(int customerId)
+        {
+            using (Context context = new Context())
+            {
+                Customer customer = context.Customers.Find(customerId);
+                if (customer == null)
+                {
+                    Console.WriteLine("No customer with id found");
+                    return;
+                }
+                Car car = context.Cars.Find(customer.CarId);
+                if (car == null)
+                {
+                    Console.WriteLine("No car found on customer");
+                    return;
+                }
+                customer.Car = null;
+                car.IsAvailable = true;
+                context.SaveChanges();
+            }
+        }
+
     }
 }

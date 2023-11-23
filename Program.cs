@@ -20,8 +20,10 @@ namespace CarRental
             //{
             //    Console.WriteLine(foundCar.Manufacturer);
             //}
-            dataAccess.GetCarsAndCustomersInOffice();
+            //dataAccess.GetCarsAndCustomersInOffice();
             //dataAccess.Seed();
+            dataAccess.RentCarWithId(2, 1);
+
         }
     }
 }
