@@ -11,6 +11,8 @@ namespace CarRental.Models
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public int? CarId { get; set; }
+        public Car? Car { get; set; } = null;
         public ICollection<RentalOffice> RentalOffices { get; set; } = new List<RentalOffice>();
     }
 }

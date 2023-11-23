@@ -1,4 +1,25 @@
-Migration / Database Update / Build
+
+# Setup
+
+Skapa en användare i Azure Data Studio och använd den i connectionsträngen i Context.cs ( Kopiera den från det här projektet och ändra det som behöver ändras om du vill )
+
+1. Installera nuget-paket genom att klistra in följande i Package Manager Console ( Om ni kör .NET 8 ska siffrorna istället vara 8.0.0 ): 
+	Install-Package Microsoft.EntityFrameworkCore -Version 7.0.14
+	Install-Package Microsoft.EntityFrameworkCore.Design -Version 7.0.14
+	Install-Package Microsoft.EntityFrameworkCore.SqlServer -Version 7.0.14
+2. Skapa en mapp som heter Models, och i den klasserna Car/RentalOffice/Customer med tillhörande properties
+3. Skapa en mapp som heter Data, och skapa i den en fil som heter Context.cs
+4. Lägg till DbSet för klasserna ovan i Context.cs
+5. Skapa DataAccess.cs i Data-mappen och lägg till metoder för att skapa/återställa databasen samt skriva/läsa data
+
+# Modifiera befintligt projekt
+
+1. Följ stegen ovan
+2. Bestäm vilken data som ska sparas i databasen, alla klasser måste inte finnas med där
+3. Modifiera en befintlig klass eller lägg till en ny för att hålla ordning på datan som ska sparas
+4. Lägg till klassen som ska sparas i en DbSet i Context.cs
+
+# Migration / Database Update / Build
 
 The purpose of a migration is to create the database schema (tables/columns etc.)
 for our database. Which database to update is controlled by the connection string in 

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 namespace CarRental.Data
 {
 
-    // This class is where we create our methods for communicating with the database
+    // This class is where we create our methods for communicating with the database using our Context-class
     // We do this to centralize where we keep our database-methods to have a more structured project
     internal class DataAccess
     {
@@ -46,6 +46,7 @@ namespace CarRental.Data
             office2.Cars = new List<Car>() { car3 };
             office2.Customers = new List<Customer>() { customer2 };
 
+            // AddRange adds multiple things to the database at once
             context.RentalOffices.AddRange(new List<RentalOffice>() { office1, office2 });
             context.SaveChanges();
         }
@@ -69,6 +70,7 @@ namespace CarRental.Data
             context.SaveChanges();
         }
 
+        // This is just an example of a method using the Lambda-arrow, it has nothing to do with the database
         public int SumLambda(int num1, int num2) => num1 + num2;
 
         public Car? GetFirstCarByModel(string model)
@@ -81,6 +83,7 @@ namespace CarRental.Data
                     //      v
                     .Where(car => car.Model == model)
                     //          ^
+                    //          |
                     //  The 'arrow' is called a 'Lambda operator' and is used to separate the 
                     //  function parameters (the left side of the arrow) from the function body
                     //  (the right side of the arrow)
@@ -131,6 +134,7 @@ namespace CarRental.Data
                 .Include(car => car.RentalOffice)
                 // ThenInclude() has the previous Include() as a starting point (In this case car.RentalOffice)
                 .ThenInclude(office => office.Customers)
+                // First is equal to using TOP(1) in SQL
                 .First();
             Console.WriteLine($"Model: {car.Model}, Office: {car.RentalOffice.OfficeName}, Customers: {car.RentalOffice.Customers.ToArray()[0].FirstName}");
         }
